@@ -1,0 +1,25 @@
+﻿
+Microsoft Visual Studio Solution File, Format Version 12.00
+# Visual Studio Version 17
+VisualStudioVersion = 17.14.36202.13 d17.14
+MinimumVisualStudioVersion = 10.0.40219.1
+Project("{FAE04EC0-301F-11D3-BF4B-00C04F79EFBC}") = "DBTriggerTest", "DBTriggerTest\DBTriggerTest.csproj", "{10FD8A18-CC33-440E-8E27-11364201F84C}"
+EndProject
+Global
+	GlobalSection(SolutionConfigurationPlatforms) = preSolution
+		Debug|Any CPU = Debug|Any CPU
+		Release|Any CPU = Release|Any CPU
+	EndGlobalSection
+	GlobalSection(ProjectConfigurationPlatforms) = postSolution
+		{10FD8A18-CC33-440E-8E27-11364201F84C}.Debug|Any CPU.ActiveCfg = Debug|Any CPU
+		{10FD8A18-CC33-440E-8E27-11364201F84C}.Debug|Any CPU.Build.0 = Debug|Any CPU
+		{10FD8A18-CC33-440E-8E27-11364201F84C}.Release|Any CPU.ActiveCfg = Release|Any CPU
+		{10FD8A18-CC33-440E-8E27-11364201F84C}.Release|Any CPU.Build.0 = Release|Any CPU
+	EndGlobalSection
+	GlobalSection(SolutionProperties) = preSolution
+		HideSolutionNode = FALSE
+	EndGlobalSection
+	GlobalSection(ExtensibilityGlobals) = postSolution
+		SolutionGuid = {CD32AF4E-959A-488D-8F01-37EE727C3B2A}
+	EndGlobalSection
+EndGlobal
