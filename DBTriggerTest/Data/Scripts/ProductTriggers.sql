@@ -3,7 +3,6 @@ ON Products
 AFTER INSERT, UPDATE, DELETE
 AS
 BEGIN
-    SET NOCOUNT ON;
  
     DECLARE @username NVARCHAR(128) = SUSER_SNAME();  -- Get the current user
     DECLARE @oldValues NVARCHAR(MAX);
