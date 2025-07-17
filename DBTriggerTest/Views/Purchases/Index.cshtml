@@ -1,5 +1,5 @@
 ﻿@using DBTriggerTest.Controllers
-@model ProductIndexViewModel
+@model PurchaseIndexViewModel
 
 @{
     ViewData["Title"] = "Index";
@@ -14,28 +14,28 @@
     <thead>
         <tr>
             <th>
-                Name
+                Quantity
             </th>
             <th>
-                Price
+                Product
             </th>
             <th>
-                Description
+                Customer
             </th>
             <th></th>
         </tr>
     </thead>
     <tbody>
-@foreach (var item in Model.Products) {
+@foreach (var item in Model.Purchases) {
         <tr>
             <td>
-                @Html.DisplayFor(modelItem => item.Name)
+                @Html.DisplayFor(modelItem => item.Quantity)
             </td>
             <td>
-                @Html.DisplayFor(modelItem => item.Price)
+                @Html.DisplayFor(modelItem => item.Product.Name)
             </td>
             <td>
-                @Html.DisplayFor(modelItem => item.Description)
+                @Html.DisplayFor(modelItem => item.Customer.Name)
             </td>
             <td>
                 <a asp-action="Edit" asp-route-id="@item.Id">Edit</a> |
@@ -46,6 +46,7 @@
 }
     </tbody>
 </table>
+
 
 <br />
 <h1>Audits</h1>
@@ -58,7 +59,7 @@
                 AuditId
             </th>
             <th>
-                ProductId
+                PurchaseId
             </th>
             <th>
                 Operation
@@ -78,14 +79,14 @@
         </tr>
     </thead>
     <tbody>
-        @foreach (var item in Model.ProductAudits)
+        @foreach (var item in Model.PurchaseAudits)
         {
             <tr>
                 <td>
                     @Html.DisplayFor(modelItem => item.AuditID)
                 </td>
                 <td>
-                    @Html.DisplayFor(modelItem => item.ProductId)
+                    @Html.DisplayFor(modelItem => item.Id)
                 </td>
                 <td>
                     @Html.DisplayFor(modelItem => item.Operation)

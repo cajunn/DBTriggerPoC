@@ -1,5 +1,5 @@
 ﻿@using DBTriggerTest.Controllers
-@model ProductIndexViewModel
+@model CustomerIndexViewModel
 
 @{
     ViewData["Title"] = "Index";
@@ -17,25 +17,49 @@
                 Name
             </th>
             <th>
-                Price
+                Address
             </th>
             <th>
-                Description
+                City
+            </th>
+            <th>
+                Region
+            </th>
+            <th>
+                PostalCode
+            </th>
+            <th>
+                Country
+            </th>
+            <th>
+                Phone
             </th>
             <th></th>
         </tr>
     </thead>
     <tbody>
-@foreach (var item in Model.Products) {
+@foreach (var item in Model.Customers) {
         <tr>
             <td>
                 @Html.DisplayFor(modelItem => item.Name)
             </td>
             <td>
-                @Html.DisplayFor(modelItem => item.Price)
+                @Html.DisplayFor(modelItem => item.Address)
             </td>
             <td>
-                @Html.DisplayFor(modelItem => item.Description)
+                @Html.DisplayFor(modelItem => item.City)
+            </td>
+            <td>
+                @Html.DisplayFor(modelItem => item.Region)
+            </td>
+            <td>
+                @Html.DisplayFor(modelItem => item.PostalCode)
+            </td>
+            <td>
+                @Html.DisplayFor(modelItem => item.Country)
+            </td>
+            <td>
+                @Html.DisplayFor(modelItem => item.Phone)
             </td>
             <td>
                 <a asp-action="Edit" asp-route-id="@item.Id">Edit</a> |
@@ -58,7 +82,7 @@
                 AuditId
             </th>
             <th>
-                ProductId
+                CustomerId
             </th>
             <th>
                 Operation
@@ -78,14 +102,14 @@
         </tr>
     </thead>
     <tbody>
-        @foreach (var item in Model.ProductAudits)
+        @foreach (var item in Model.CustomerAudits)
         {
             <tr>
                 <td>
                     @Html.DisplayFor(modelItem => item.AuditID)
                 </td>
                 <td>
-                    @Html.DisplayFor(modelItem => item.ProductId)
+                    @Html.DisplayFor(modelItem => item.Id)
                 </td>
                 <td>
                     @Html.DisplayFor(modelItem => item.Operation)
