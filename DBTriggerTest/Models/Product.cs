@@ -8,5 +8,7 @@ namespace DBTriggerTest.Models
         [Required] public string Name { get; set; }
         public decimal Price { get; set; }
         public string Description { get; set; }
+
+        public virtual ICollection<Purchase> Purchases { get; set; } = new List<Purchase>();
     }
 }

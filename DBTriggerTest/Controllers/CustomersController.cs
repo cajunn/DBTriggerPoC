@@ -1,46 +1,45 @@
-﻿using System;
+﻿using DBTriggerTest.Data;
+using DBTriggerTest.Models;
+using Microsoft.AspNetCore.Mvc;
+using Microsoft.AspNetCore.Mvc.Rendering;
+using Microsoft.Data.SqlClient;
+using Microsoft.EntityFrameworkCore;
+using System;
 using System.Collections.Generic;
 using System.Linq;
 using System.Threading.Tasks;
-using Microsoft.AspNetCore.Mvc;
-using Microsoft.AspNetCore.Mvc.Rendering;
-using Microsoft.EntityFrameworkCore;
-using DBTriggerTest.Data;
-using DBTriggerTest.Models;
-using Microsoft.Data.SqlClient;
-using System.Data;
 
 namespace DBTriggerTest.Controllers
 {
-    public class ProductsController : Controller
+    public class CustomersController : Controller
     {
         private readonly AppDbContext _context;
-        public ProductsController(AppDbContext context)
+        public CustomersController(AppDbContext context)
         {
             _context = context;
         }
 
-        // GET: Products
+        // GET: Customers
         public async Task<IActionResult> Index()
         {
-            var products = await _context.Products.ToListAsync();
+            var Customers = await _context.Customers.ToListAsync();
 
-            var audits = new List<ProductAudit>();
+            var audits = new List<CustomerAudit>();
 
             using (var connection = new SqlConnection(Constants.ConnectionString))
             {
-                var query = "SELECT * FROM ProductsAudit ORDER BY ModifiedAt DESC"; 
-                using(var command = new SqlCommand(query, connection))
+                var query = "SELECT * FROM CustomersAudit ORDER BY ModifiedAt DESC";
+                using (var command = new SqlCommand(query, connection))
                 {
-                    connection.Open(); 
+                    connection.Open();
                     using (var reader = await command.ExecuteReaderAsync())
                     {
-                        while(await reader.ReadAsync())
+                        while (await reader.ReadAsync())
                         {
-                            audits.Add(new ProductAudit
+                            audits.Add(new CustomerAudit
                             {
                                 AuditID = reader.GetInt32(0),
-                                ProductId = reader.GetInt32(1),
+                                Id = reader.GetInt32(1),
                                 Operation = reader.GetString(2),
                                 ModifiedBy = reader.GetString(3),
                                 ModifiedAt = reader.GetDateTime(4),
@@ -52,16 +51,16 @@ namespace DBTriggerTest.Controllers
                 }
             }
 
-            var viewModel = new ProductIndexViewModel
+            var viewModel = new CustomerIndexViewModel
             {
-                Products = products,
-                ProductAudits = audits
+                Customers = Customers,
+                CustomerAudits = audits
             };
 
             return View(viewModel);
         }
 
-        // GET: Products/Details/5
+        // GET: Customers/Details/5
         public async Task<IActionResult> Details(int? id)
         {
             if (id == null)
@@ -69,39 +68,39 @@ namespace DBTriggerTest.Controllers
                 return NotFound();
             }
 
-            var product = await _context.Products
+            var customer = await _context.Customers
                 .FirstOrDefaultAsync(m => m.Id == id);
-            if (product == null)
+            if (customer == null)
             {
                 return NotFound();
             }
 
-            return View(product);
+            return View(customer);
         }
 
-        // GET: Products/Create
+        // GET: Customers/Create
         public IActionResult Create()
         {
             return View();
         }
 
-        // POST: Products/Create
+        // POST: Customers/Create
         // To protect from overposting attacks, enable the specific properties you want to bind to.
         // For more details, see http://go.microsoft.com/fwlink/?LinkId=317598.
         [HttpPost]
         [ValidateAntiForgeryToken]
-        public async Task<IActionResult> Create([Bind("Id,Name,Price,Description")] Product product)
+        public async Task<IActionResult> Create([Bind("Id,Name,Address,City,Region,PostalCode,Country,Phone")] Customer customer)
         {
             if (ModelState.IsValid)
             {
-                _context.Add(product);
+                _context.Add(customer);
                 await _context.SaveChangesAsync();
                 return RedirectToAction(nameof(Index));
             }
-            return View(product);
+            return View(customer);
         }
 
-        // GET: Products/Edit/5
+        // GET: Customers/Edit/5
         public async Task<IActionResult> Edit(int? id)
         {
             if (id == null)
@@ -109,22 +108,22 @@ namespace DBTriggerTest.Controllers
                 return NotFound();
             }
 
-            var product = await _context.Products.FindAsync(id);
-            if (product == null)
+            var customer = await _context.Customers.FindAsync(id);
+            if (customer == null)
             {
                 return NotFound();
             }
-            return View(product);
+            return View(customer);
         }
 
-        // POST: Products/Edit/5
+        // POST: Customers/Edit/5
         // To protect from overposting attacks, enable the specific properties you want to bind to.
         // For more details, see http://go.microsoft.com/fwlink/?LinkId=317598.
         [HttpPost]
         [ValidateAntiForgeryToken]
-        public async Task<IActionResult> Edit(int id, [Bind("Id,Name,Price,Description")] Product product)
+        public async Task<IActionResult> Edit(int id, [Bind("Id,Name,Address,City,Region,PostalCode,Country,Phone")] Customer customer)
         {
-            if (id != product.Id)
+            if (id != customer.Id)
             {
                 return NotFound();
             }
@@ -133,12 +132,12 @@ namespace DBTriggerTest.Controllers
             {
                 try
                 {
-                    _context.Update(product);
+                    _context.Update(customer);
                     await _context.SaveChangesAsync();
                 }
                 catch (DbUpdateConcurrencyException)
                 {
-                    if (!ProductExists(product.Id))
+                    if (!CustomerExists(customer.Id))
                     {
                         return NotFound();
                     }
@@ -149,10 +148,10 @@ namespace DBTriggerTest.Controllers
                 }
                 return RedirectToAction(nameof(Index));
             }
-            return View(product);
+            return View(customer);
         }
 
-        // GET: Products/Delete/5
+        // GET: Customers/Delete/5
         public async Task<IActionResult> Delete(int? id)
         {
             if (id == null)
@@ -160,47 +159,47 @@ namespace DBTriggerTest.Controllers
                 return NotFound();
             }
 
-            var product = await _context.Products
+            var customer = await _context.Customers
                 .FirstOrDefaultAsync(m => m.Id == id);
-            if (product == null)
+            if (customer == null)
             {
                 return NotFound();
             }
 
-            return View(product);
+            return View(customer);
         }
 
-        // POST: Products/Delete/5
+        // POST: Customers/Delete/5
         [HttpPost, ActionName("Delete")]
         [ValidateAntiForgeryToken]
         public async Task<IActionResult> DeleteConfirmed(int id)
         {
-            var product = await _context.Products.FindAsync(id);
-            if (product != null)
+            var customer = await _context.Customers.FindAsync(id);
+            if (customer != null)
             {
-                _context.Products.Remove(product);
+                _context.Customers.Remove(customer);
             }
 
             await _context.SaveChangesAsync();
             return RedirectToAction(nameof(Index));
         }
 
-        private bool ProductExists(int id)
+        private bool CustomerExists(int id)
         {
-            return _context.Products.Any(e => e.Id == id);
+            return _context.Customers.Any(e => e.Id == id);
         }
     }
 
-    public class ProductIndexViewModel
+    public class CustomerIndexViewModel
     {
-        public List<Product> Products { get; set; }
-        public List<ProductAudit> ProductAudits { get; set; }
+        public List<Customer> Customers { get; set; }
+        public List<CustomerAudit> CustomerAudits { get; set; }
     }
 
-    public class ProductAudit
+    public class CustomerAudit
     {
         public int AuditID { get; set; }
-        public int ProductId { get; set; }
+        public int Id { get; set; }
         public string Operation { get; set; }
         public string ModifiedBy { get; set; }
         public DateTime ModifiedAt { get; set; }
