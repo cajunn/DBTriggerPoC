@@ -5,7 +5,7 @@ Steps to run the app -
 
 Steps to implement the Database Triggers and Audit Tables - 
 
-  - Navigate to in the terminal /Data/Scripts
+  - Navigate to /Data/Scripts in the terminal 
   - run: " py create-audit-tables-and-triggers.py "
   - this will create a script in /Data/Scripts/Output/
   - run this script on your localDb
