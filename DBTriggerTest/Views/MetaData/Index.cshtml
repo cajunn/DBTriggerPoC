@@ -1,0 +1,101 @@
+﻿@model DBTriggerTest.Controllers.MetadataPageViewModel
+
+@{
+
+    ViewData["Title"] = "Metadata Overview";
+
+}
+
+<h1 class="mb-4">Entity & Database Metadata Viewer</h1>
+
+<form asp-controller="Metadata" asp-action="ExportEntitiesAsCsv" method="get" style="display: inline;">
+    <button type="submit" class="btn btn-primary mb-3">Export Entities to CSV</button>
+</form>
+
+<form asp-controller="Metadata" asp-action="ExportDbSchemaAsCsv" method="get" style="display: inline; margin-left: 10px;">
+    <button type="submit" class="btn btn-secondary mb-3">Export DB Schema to CSV</button>
+</form>
+
+<div style="display: flex; gap: 40px; align-items: flex-start;">
+
+    <!-- Left Panel: Code Entities -->
+    <div style="flex: 1; overflow-x: auto;">
+        <h2>Code Entities</h2>
+
+        @foreach (var entity in Model.EntityMetadata)
+
+        {
+            <h4 class="mt-4">@entity.EntityName</h4>
+            <table class="table table-bordered table-sm">
+                <thead>
+                    <tr>
+                        <th>Property</th>
+                        <th>Type</th>
+                        <th>Nullable</th>
+                        <th>Attributes</th>
+                        <th>Navigation</th>
+                    </tr>
+                </thead>
+                <tbody>
+
+                    @foreach (var prop in entity.Properties)
+
+                    {
+                        <tr>
+                            <td>@prop.PropertyName</td>
+                            <td>@prop.TypeName</td>
+                            <td>@prop.IsNullable</td>
+                            <td>@prop.Attributes</td>
+                            <td>@prop.IsNavigation</td>
+                        </tr>
+
+                    }
+                </tbody>
+            </table>
+
+        }
+    </div>
+
+    <!-- Right Panel: Database Tables -->
+    <div style="flex: 1; overflow-x: auto;">
+        <h2>Database Tables</h2>
+
+        @foreach (var table in Model.DbSchema)
+
+        {
+            <h4 class="mt-4">@table.TableName</h4>
+            <table class="table table-bordered table-sm">
+                <thead>
+                    <tr>
+                        <th>Column</th>
+                        <th>Type</th>
+                        <th>Nullable</th>
+                        <th>PK</th>
+                        <th>FK</th>
+                        <th>FK Table</th>
+                        <th>FK Column</th>
+                    </tr>
+                </thead>
+                <tbody>
+
+                    @foreach (var column in table.Columns)
+
+                    {
+                        <tr>
+                            <td>@column.ColumnName</td>
+                            <td>@column.DataType</td>
+                            <td>@column.IsNullable</td>
+                            <td>@column.IsPrimaryKey</td>
+                            <td>@column.IsForeignKey</td>
+                            <td>@column.ForeignKeyTable</td>
+                            <td>@column.ForeignKeyColumn</td>
+                        </tr>
+
+                    }
+                </tbody>
+            </table>
+
+        }
+    </div>
+</div>
+
